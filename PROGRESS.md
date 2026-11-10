@@ -22,6 +22,8 @@
 
 ## 唯一下一步
 
+最新讨论：用户提出 Embodied Harness 操作／恢复方向并询问难度，已完成[可行性评估](logs/2026-11-10-harness-assessment.md)。尚未决定改题，现有主计划保持有效；未开始实现。
+
 **S01：资源审计与单房间闭环的接口定义。**
 
 按 [docs/FIRST_STEP.md](docs/FIRST_STEP.md) 检查 Mac 资源与现有运行环境，解释观察—行动—评分边界，确定本地试跑或云端方案，并写清一个样例 episode 的验收方法。
