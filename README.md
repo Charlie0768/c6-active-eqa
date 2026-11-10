@@ -2,7 +2,7 @@
 
 暂定题目：**Look Before Answering: Question-Guided Exploration with Lightweight Semantic Memory**
 
-在固定 Qwen3-VL 模型、最多 20 次环境行动的条件下，比较不同探索策略回答室内问题的准确率与成本。主线为 AI2-THOR、自建测试集、问题引导搜索和轻量语义记忆。
+在固定通用多模态模型、最多 20 次环境行动的条件下，比较不同探索策略回答室内问题的准确率与成本。主线为 AI2-THOR、自建测试集、问题引导搜索和轻量语义记忆。根据用户 2026-11-10 的澄清，优先考虑支持图像输入和工具调用的 GPT／Claude API，具体型号与费用待确认；不再默认部署 Qwen3-VL。
 
 ## 从这里继续
 
