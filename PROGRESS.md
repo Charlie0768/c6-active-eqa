@@ -22,7 +22,7 @@
 
 ## 唯一下一步
 
-最新澄清：用户主要想采用 GPT／Claude 类通用大模型，而非扩展操作／恢复任务。PLAN 已更新为 v1.1：保留 C6，优先图像与工具调用 API，具体型号待定。见[模型意图澄清记录](logs/2026-11-10-general-model-clarification.md)。此前 Harness 扩题评估仅为备选讨论，不代表用户决定。未开始实现。
+最新澄清：用户想采用通用大模型，但 GPT／Claude 太贵。PLAN 已更新为 v1.2：保留 C6，优先低成本图像与工具调用 API，具体型号待定。见[模型意图澄清](logs/2026-11-10-general-model-clarification.md)及[成本记录](logs/2026-11-10-cost-constraint.md)。此前 Harness 扩题评估仅为备选讨论，不代表用户决定。未开始实现。
 
 **S01：资源审计与单房间闭环的接口定义。**
 
