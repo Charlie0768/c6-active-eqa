@@ -1,0 +1,4 @@
+# S02 only: simulator and RGB image export. No model dependencies yet.
+ai2thor==5.0.0
+pillow==11.3.0
+numpy==2.0.2

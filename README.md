@@ -9,9 +9,9 @@
 1. 阅读 [AGENTS.md](AGENTS.md)，了解本工作区的协作约定。
 2. 阅读 [PROGRESS.md](PROGRESS.md)，查看当前状态和唯一下一步。
 3. 阅读 [MEMORY.md](MEMORY.md)，恢复已确认约束。
-4. 阅读[本机环境审计](docs/ENVIRONMENT.md)和[分阶段编码顺序](docs/CODE_STAGES.md)，从 S02 的单房间仿真开始。完整路线在 [PLAN.md](PLAN.md)。
+4. 阅读[本机环境与 S02 实测](docs/ENVIRONMENT.md)和[分阶段编码顺序](docs/CODE_STAGES.md)，按 [PROGRESS.md](PROGRESS.md) 的当前下一步推进 S03。完整路线在 [PLAN.md](PLAN.md)。
 
-已完成只读机器资源审计和编码阶段定义。**尚未安装仿真器、下载模型、调用付费 API 或运行实验。**
+已完成 S02 本机仿真烟测：AI2-THOR 在当前 Mac 上输出真实 RGB、动作反馈和重置轨迹。运行命令、证据和像素复现边界见 [ENVIRONMENT.md](docs/ENVIRONMENT.md)。**尚未下载／运行 Qwen3-VL、调用付费 API 或运行 EQA 主实验。**
 
 ## 文件索引
 
@@ -24,8 +24,10 @@
 | [DECISIONS.md](DECISIONS.md) | 按时间追加的重要技术与实验决策 |
 | [docs/EXPERIMENT_PROTOCOL.md](docs/EXPERIMENT_PROTOCOL.md) | 评测协议草案，正式实验前冻结 |
 | [docs/FIRST_STEP.md](docs/FIRST_STEP.md) | 第一个可验收工作单元 |
-| [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md) | S01 的本机资源与依赖审计 |
+| [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md) | S01 本机审计与 S02 仿真实测 |
 | [docs/CODE_STAGES.md](docs/CODE_STAGES.md) | 各个代码工作单元和通过条件 |
+| [scripts/smoke_sim.py](scripts/smoke_sim.py) | S02 单房间、固定动作、重置烟测脚本 |
+| [requirements-s02.txt](requirements-s02.txt) | S02 最小直接依赖 |
 | [docs/SESSION_TEMPLATE.md](docs/SESSION_TEMPLATE.md) | 后续工作／对话记录模板 |
 | [logs/2026-11-10-planning.md](logs/2026-11-10-planning.md) | 本轮真实对话决策摘要 |
 
@@ -35,7 +37,7 @@
 
 - 计划窗口：2026-11-10 至 2026-12-09，Asia/Shanghai。
 - 团队：2–3 人，每人每周 8–12 小时。
-- 当前资源：Apple M4 MacBook Air，16 GB 内存，约 190 GiB 可用磁盘；仿真与模型兼容性尚未验证。
+- 当前资源：Apple M4 MacBook Air，16 GB 内存，S01 时约 190 GiB 可用磁盘；AI2-THOR 单独运行已验证，Qwen3-VL 及同时运行资源未验证。
 - ¥300 为建议总预算上限，**尚未确认具体额度、供应商或消费操作**。
 - 课程节点：12 月 17 日 17:00 海报，12 月 18 日展示，12 月 25 日 23:59 报告；以课程后续通知为准。
 
