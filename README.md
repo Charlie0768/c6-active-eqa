@@ -2,16 +2,16 @@
 
 暂定题目：**Look Before Answering: Question-Guided Exploration with Lightweight Semantic Memory**
 
-在固定通用多模态模型、最多 20 次环境行动的条件下，比较不同探索策略回答室内问题的准确率与成本。主线为 AI2-THOR、自建测试集、问题引导搜索和轻量语义记忆。用户希望使用通用模型，同时认为 GPT／Claude 太贵；当前优先筛选低成本、支持图像与工具调用的 API。Qwen3.8-Flash 为建议候选，GLM-4.6V-Flash 可作免费原型候选，尚未实测或选定；不默认部署本地 Qwen3-VL。
+在固定视觉语言模型、最多 20 次环境行动的条件下，比较不同探索策略回答室内问题的准确率与成本。主线为 AI2-THOR、自建测试集、问题引导搜索和轻量语义记忆。用户最新决定先按原先的 VL 路线跑通：以 Qwen3-VL 为首轮候选，具体 2B／4B 规格及本地或低成本服务方式经过单图测试确定；模型对比留到主线稳定以后。
 
 ## 从这里继续
 
 1. 阅读 [AGENTS.md](AGENTS.md)，了解本工作区的协作约定。
 2. 阅读 [PROGRESS.md](PROGRESS.md)，查看当前状态和唯一下一步。
 3. 阅读 [MEMORY.md](MEMORY.md)，恢复已确认约束。
-4. 执行 [第一步工作单](docs/FIRST_STEP.md)。完整路线在 [PLAN.md](PLAN.md)。
+4. 阅读[本机环境审计](docs/ENVIRONMENT.md)和[分阶段编码顺序](docs/CODE_STAGES.md)，从 S02 的单房间仿真开始。完整路线在 [PLAN.md](PLAN.md)。
 
-当前仅完成规划与版本管理初始化。**尚未安装仿真器、下载模型、调用付费 API 或运行实验。**
+已完成只读机器资源审计和编码阶段定义。**尚未安装仿真器、下载模型、调用付费 API 或运行实验。**
 
 ## 文件索引
 
@@ -24,6 +24,8 @@
 | [DECISIONS.md](DECISIONS.md) | 按时间追加的重要技术与实验决策 |
 | [docs/EXPERIMENT_PROTOCOL.md](docs/EXPERIMENT_PROTOCOL.md) | 评测协议草案，正式实验前冻结 |
 | [docs/FIRST_STEP.md](docs/FIRST_STEP.md) | 第一个可验收工作单元 |
+| [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md) | S01 的本机资源与依赖审计 |
+| [docs/CODE_STAGES.md](docs/CODE_STAGES.md) | 各个代码工作单元和通过条件 |
 | [docs/SESSION_TEMPLATE.md](docs/SESSION_TEMPLATE.md) | 后续工作／对话记录模板 |
 | [logs/2026-11-10-planning.md](logs/2026-11-10-planning.md) | 本轮真实对话决策摘要 |
 
@@ -33,7 +35,7 @@
 
 - 计划窗口：2026-11-10 至 2026-12-09，Asia/Shanghai。
 - 团队：2–3 人，每人每周 8–12 小时。
-- 当前资源：Mac；可接受少量 API／云 GPU 费用；具体机器与服务尚未测定。
+- 当前资源：Apple M4 MacBook Air，16 GB 内存，约 190 GiB 可用磁盘；仿真与模型兼容性尚未验证。
 - ¥300 为建议总预算上限，**尚未确认具体额度、供应商或消费操作**。
 - 课程节点：12 月 17 日 17:00 海报，12 月 18 日展示，12 月 25 日 23:59 报告；以课程后续通知为准。
 
