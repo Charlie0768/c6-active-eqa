@@ -26,6 +26,7 @@
 - S02 已在当前 Apple M4/macOS 27.0.1 上实际启动 `ai2thor==5.0.0` 的 `OSXIntel64` Unity 构建；同一固定动作序列重置后 agent 位姿及动作反馈一致，但 PNG 像素不保证逐字节一致。完整实测见 `docs/ENVIRONMENT.md`；不要用图片哈希相同作为重置验收条件。
 - S03 已在本机单独运行 `mlx-vlm==0.7.6` + `mlx-community/Qwen3-VL-2B-Instruct-4bit` 的固定修订版，对 S02 首帧完成离线单图问答；这是社区量化技术试跑，尚非正式研究模型。原始输出可能带 Markdown JSON 围栏，须保留原文并单独解析；见 `docs/ENVIRONMENT.md`。
 - S04 已在同一进程保持 Unity 存活时完成一题一行动两帧问答：固定 `RotateRight`，模型根据首帧冰箱回答“是、证据帧 1”。这只是脚本动作的接口烟测，不是问题引导探索策略或正式评分。模型输入仅含已观察 RGB、问题、动作名／成功标志和行动预算；完整仿真 metadata 不进入模型。
+- 本机 M4 的 16 GB 是 CPU/GPU 共用的统一内存。S04 单次 MLX 峰值 2.277 GB 只说明当前 2B 4-bit 两帧闭环可运行，不能当整机峰值，也不能外推到 20 步或正式批量；资源判定见 `docs/CLOSED_LOOP_WALKTHROUGH.md`。
 
 ## 尚未确定，不能当作既成事实
 

@@ -14,6 +14,7 @@
 - [x] S02：用隔离 `.venv` 安装 AI2-THOR 5.0.0、Pillow 11.3.0、NumPy 2.0.2；编写并运行 `scripts/smoke_sim.py`，保存 `FloorPlan1` 两轮固定动作的 RGB、轨迹和重置比较。
 - [x] S03：在独立 Python 3.11 `.venv-vl` 中安装 MLX-VLM 0.7.6，下载固定修订版的 Qwen3-VL-2B-Instruct MLX 4-bit 模型，编写并运行 `scripts/smoke_vl.py` 对 S02 首帧做离线问答。
 - [x] S04：在同一 Python 3.11 环境加入 AI2-THOR，执行 `FloorPlan1` 一次 `RotateRight`，在 Unity 存活期间把前后两帧交给本地 VL 模型；记录答案、证据帧、预算、输入白名单与资源。
+- [x] 对 S02–S04 的 4 个 Python 文件与 3 个依赖清单补充中文教学注释；新增 [闭环代码导读](docs/CLOSED_LOOP_WALKTHROUGH.md)，区分本地模型/Unity/PNG、已跑通的单次闭环与正式批量资源门槛。
 
 ## 实际验证边界
 
@@ -29,6 +30,7 @@
 - `runs/s04-one-step-verified/episode.json`：动作 1/1 成功；模型答“是、证据帧 1”。两张图片人工检查分别为冰箱与门；Unity 在模型前后均存活。清理前总时长 4.873 秒，MLX 峰值内存 2.277 GB；Unity RSS 两次取样约 633/367 MB，不是峰值。
 - 两项边界测试通过：预算在执行前扣减并拒绝第二次行动；隐藏物体列表／答案不能进入模型输入白名单。首次输出少了额外证据文本字段而未过格式检查，收窄 S04 契约后通过，失败记录仍在 `runs/s04-one-step/`。
 - 尚未运行 EQA 主实验；连续 episode 稳定性、正式题集和评分未验证，正式研究模型尚未冻结。
+- 本轮只补充注释和文档，没有改运行语义；新导读依据现有 `runs/s04-one-step-verified/episode.json` 与本机目录、硬件复核。16 GB 统一内存已支撑一次 2B 4-bit 闭环，但 20 步和连续多题仍须资源门槛试跑。
 - 尚无问题数据集、性能结果、付费开销或远端仓库。
 - 课程资料来自本日先前规划会话；S02/S03 本机结果已实测，S03 另核对了模型仓库和 MLX-VLM 用法。未重新核验课程要求。
 

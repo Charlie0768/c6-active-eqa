@@ -1,2 +1,2 @@
-# S03 only: local Apple Silicon VLM inference. Use a separate Python 3.11 venv.
+# S03：Apple Silicon 上的本地 VL 推理；使用独立的 Python 3.11 虚拟环境。
 mlx-vlm==0.7.6

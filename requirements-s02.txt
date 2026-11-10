@@ -1,4 +1,4 @@
-# S02 only: simulator and RGB image export. No model dependencies yet.
+# S02：仿真环境、RGB 图片保存及两轮画面差异计算；不装模型依赖。
 ai2thor==5.0.0
 pillow==11.3.0
 numpy==2.0.2
