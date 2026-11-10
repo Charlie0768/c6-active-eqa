@@ -1,0 +1,43 @@
+# OS / editor / runtime
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+.cache/
+
+# Credentials: examples must contain placeholders only
+.env
+.env.*
+!.env.example
+secrets/
+credentials/
+*_key.txt
+*.pem
+*.key
+
+# Large / generated artifacts: track manifests and hashes separately
+data/raw/
+data/scenes/
+models/
+weights/
+checkpoints/
+runs/
+outputs/
+replays/
+artifacts/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+
+# Python build products
+build/
+dist/
+*.egg-info/
