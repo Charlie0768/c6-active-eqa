@@ -1,4 +1,4 @@
-# S01 本机环境审计
+# 本机环境审计与 S02/S03 实测
 
 日期：2026-11-10，Asia/Shanghai。本节为 S01 的只读检查；S02 实测见下文。
 
@@ -42,3 +42,37 @@
 **复现边界：**重置后的 PNG 字节不完全一致；最终运行初始帧的平均绝对像素差约 22.38/255、最大单通道差 39。视觉上两张初始图均为同一冰箱视角，但不能把 RGB 哈希相同当作本环境的重置条件。烟测的通过门槛是动作反馈与 agent 位姿一致；后续评分不能依赖逐像素相等。完整逐步差异见 `runs/smoke-final/summary.json`。
 
 受控执行环境的默认沙箱无法访问官方构建地址，也不能写 `~/.ai2thor` 锁文件；本次在允许网络和该缓存写入的执行环境中完成。用户在自己的终端按上面命令运行时通常不受此沙箱限制，但仍需正常网络、磁盘和 macOS 运行权限。
+
+## S03：Qwen3-VL 单图烟测（已执行）
+
+用独立 Python 3.11 环境运行本地 MLX 推理，不给模型任何仿真 metadata：
+
+```bash
+/opt/anaconda3/envs/dl_pytorch/bin/python -m venv .venv-vl
+./.venv-vl/bin/python -m pip install -r requirements-s03.txt
+```
+
+团队其他机器可尝试用自己的 Python 3.11/3.12 创建该环境；本工作单只在当前 Python 3.11.14 上验证。模型为公开的 [MLX 社区 Qwen3-VL-2B-Instruct-4bit](https://huggingface.co/mlx-community/Qwen3-VL-2B-Instruct-4bit)，修订版 `9c4f5209e57b31f4b9dfba735de3fb983739c9cc`。下载前通过 Hugging Face API 实测仓库 16 个文件合计 1,798,023,774 字节；实际模型目录约 1.7 GiB、隔离环境约 815 MiB，低于本工作单约 5 GB 的新增文件停止线。公开模型通过下面命令下载到 Git 忽略的 `models/`：
+
+```bash
+HF_HOME=.cache/huggingface HF_HUB_DISABLE_IMPLICIT_TOKEN=1 ./.venv-vl/bin/python - <<'PY'
+from huggingface_hub import snapshot_download
+snapshot_download(
+    repo_id="mlx-community/Qwen3-VL-2B-Instruct-4bit",
+    revision="9c4f5209e57b31f4b9dfba735de3fb983739c9cc",
+    local_dir="models/qwen3-vl-2b-instruct-4bit",
+    max_workers=2,
+    token=False,
+)
+PY
+```
+
+`scripts/smoke_vl.py` 验证本地权重 SHA-256 为 `4750d95a2162829e127a94e83ac350d498d02070aab216c4687da48804a06ffb`，然后只把图片路径和固定问题交给模型。重跑时为 `--output` 指定新的空目录，例如：
+
+```bash
+HF_HOME=.cache/huggingface HF_HUB_OFFLINE=1 HF_HUB_DISABLE_IMPLICIT_TOKEN=1 ./.venv-vl/bin/python scripts/smoke_vl.py --image runs/smoke-final/run1_step00.png --model models/qwen3-vl-2b-instruct-4bit --output runs/s03-one-image-new
+```
+
+本机实际输出在 `runs/s03-one-image-accepted/result.json`（Git 忽略）：图片 SHA-256 与 S02 轨迹首帧一致，格式化提示词含一个图像占位符；136 个输入 token、28 个输出 token。模型答 `{"answer":"是","evidence":"冰箱在画面中央，清晰可见"}`，与保存的画面可人工核对。原文有 Markdown JSON 代码围栏，脚本保留原文、标注去围栏后解析成功。首次运行的模型加载约 1.37 秒、生成约 3.53 秒；后续验收运行分别约 0.90 秒、0.98 秒。MLX 报告峰值内存约 2.039 GB；单次推理均低于 10 分钟停止线。进程 RSS 与 MLX 内存口径不同，不相加当作总占用。付费 API/GPU 开销为 0。
+
+这只证明该社区量化 checkpoint 在这张 300×300 图上能答题，不证明其他图片的准确率、它与原版的等价性、正式实验模型已选定或与 AI2-THOR 同时运行稳定。默认沙箱隔离 Metal GPU，本次在允许本机 GPU 的受控执行环境中实测。MLX-VLM 的[本地安装和图像推理示例](https://github.com/Neywa-Labs/mlx-vlm/blob/main/README.md)是实现参考。

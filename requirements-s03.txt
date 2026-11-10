@@ -1,0 +1,2 @@
+# S03 only: local Apple Silicon VLM inference. Use a separate Python 3.11 venv.
+mlx-vlm==0.7.6
