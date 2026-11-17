@@ -1,0 +1,30 @@
+{
+  "schema_version": "s05-dev-v1",
+  "description": "仅含运行时可读取的开发题；真值和参考路径另存于 dev_labels.json。",
+  "questions": [
+    {
+      "id": "fp1-fridge-visible-001",
+      "split": "dev",
+      "scene": "FloorPlan1",
+      "question_type": "yes_no_presence",
+      "question": "这间厨房里有冰箱吗？",
+      "initial_pose": {
+        "position": {"x": -1.0, "y": 0.900999128818512, "z": 1.0},
+        "yaw_degrees": 270.0,
+        "camera_horizon_degrees": 0.0
+      }
+    },
+    {
+      "id": "fp1-door-white-002",
+      "split": "dev",
+      "scene": "FloorPlan1",
+      "question_type": "yes_no_attribute",
+      "question": "这间厨房的房门是白色的吗？",
+      "initial_pose": {
+        "position": {"x": -1.0, "y": 0.900999128818512, "z": 1.0},
+        "yaw_degrees": 270.0,
+        "camera_horizon_degrees": 0.0
+      }
+    }
+  ]
+}

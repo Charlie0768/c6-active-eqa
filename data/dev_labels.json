@@ -1,0 +1,30 @@
+{
+  "schema_version": "s05-dev-v1",
+  "description": "评分器私有；运行时模型与探索策略不得读取本文件。",
+  "labels": [
+    {
+      "id": "fp1-fridge-visible-001",
+      "answer": "是",
+      "evidence": {
+        "reference_actions": [],
+        "reference_image": "runs/smoke-final/run1_step00.png",
+        "reference_image_sha256": "83aaf613e5ad6a649f9a4da7ec44e790420abb41e98a6474fe34d8a0f8c5a8d3",
+        "visual_note": "起始帧中央有冰箱。"
+      },
+      "initial_view_sufficient": true,
+      "review_status": "user_confirmed_fridge_evidence_2026-11-17"
+    },
+    {
+      "id": "fp1-door-white-002",
+      "answer": "否",
+      "evidence": {
+        "reference_actions": ["RotateRight"],
+        "reference_image": "runs/smoke-final/run1_step01.png",
+        "reference_image_sha256": "8f0c8d7bb0bb2eab313008bb76d22a72cfa02e68e67529feb31c88411bf6eb05",
+        "visual_note": "从起点右转后，正前方房门呈深棕色；起始帧没有清楚显示该门。"
+      },
+      "initial_view_sufficient": false,
+      "review_status": "assistant_visual_reviewed_pending_user"
+    }
+  ]
+}
