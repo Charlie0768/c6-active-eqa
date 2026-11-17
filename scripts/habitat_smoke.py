@@ -9,6 +9,27 @@ import numpy as np
 from PIL import Image
 
 
+CAMERA_SHAPE = (540, 960)
+
+
+def camera_config(scene, action_space=None):
+    # Mac 的普通构建通过本机 OpenGL 渲染。只创建一个彩色相机。
+    backend = habitat_sim.SimulatorConfiguration()
+    backend.scene_id = str(scene)
+    backend.enable_physics = False
+    camera = habitat_sim.CameraSensorSpec()
+    camera.uuid = "rgb"
+    camera.sensor_type = habitat_sim.SensorType.COLOR
+    height, width = CAMERA_SHAPE
+    camera.resolution = [height, width]
+    camera.position = mn.Vector3(0, 1.5, 0)
+    agent_cfg = habitat_sim.agent.AgentConfiguration()
+    agent_cfg.sensor_specifications = [camera]
+    if action_space is not None:
+        agent_cfg.action_space = action_space
+    return habitat_sim.Configuration(backend, [agent_cfg])
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scene", required=True, type=Path)
@@ -20,20 +41,8 @@ def main():
         parser.error(f"Missing navigation mesh: {navmesh}")
     args.output.mkdir(parents=True, exist_ok=False)
 
-    # Mac 的普通构建通过本机 OpenGL 渲染。只创建一个彩色相机。
-    backend = habitat_sim.SimulatorConfiguration()
-    backend.scene_id = str(scene)
-    backend.enable_physics = False
-    camera = habitat_sim.CameraSensorSpec()
-    camera.uuid = "rgb"
-    camera.sensor_type = habitat_sim.SensorType.COLOR
-    height, width = 540, 960
-    camera.resolution = [height, width]
-    camera.position = mn.Vector3(0, 1.5, 0)
-    agent_cfg = habitat_sim.agent.AgentConfiguration()
-    agent_cfg.sensor_specifications = [camera]
-
-    with habitat_sim.Simulator(habitat_sim.Configuration(backend, [agent_cfg])) as sim:
+    height, width = CAMERA_SHAPE
+    with habitat_sim.Simulator(camera_config(scene)) as sim:
         if not sim.pathfinder.load_nav_mesh(str(navmesh)):
             raise RuntimeError("Could not load the scene navigation mesh")
         # 此固定种子起点用于工程测试。正式实验另行登记每道题的起点。
