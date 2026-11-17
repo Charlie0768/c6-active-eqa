@@ -15,9 +15,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scene", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--height", type=int, default=270,
+                        help="原生 16:9 相机的输出高度，如 270、540、720 或 1080")
+    parser.add_argument("--navmesh", type=Path, help="两种 GLB 共用同一套住宅的导航网格")
     args = parser.parse_args()
+    if args.height <= 0 or args.height % 9:
+        parser.error("--height 需为 9 的正整数倍，以保持精确的 16:9 宽高比")
     scene = args.scene.resolve(strict=True)
-    navmesh = scene.with_suffix(".navmesh")
+    navmesh = (args.navmesh or scene.with_suffix(".navmesh")).resolve(strict=True)
     args.output.mkdir(parents=True, exist_ok=False)
     cfg = habitat_sim.SimulatorConfiguration()
     cfg.scene_id = str(scene)
@@ -25,7 +30,8 @@ def main():
     sensor = habitat_sim.CameraSensorSpec()
     sensor.uuid = "rgb"
     sensor.sensor_type = habitat_sim.SensorType.COLOR
-    sensor.resolution = [270, 480]
+    width = args.height * 16 // 9
+    sensor.resolution = [args.height, width]
     sensor.position = mn.Vector3(0, 1.5, 0)
     agent_cfg = habitat_sim.agent.AgentConfiguration()
     agent_cfg.sensor_specifications = [sensor]
@@ -55,7 +61,8 @@ def main():
                 views.append(dict(image=name, position=list(pos), heading_deg=heading * 90))
             if point % 8 == 7:
                 sheet.save(args.output / f"sheet-{point // 8}.jpg")
-    (args.output / "views.json").write_text(json.dumps(dict(scene=scene.name, seed=17, views=views), indent=2))
+    manifest = dict(scene=scene.name, seed=17, width=width, height=args.height, views=views)
+    (args.output / "views.json").write_text(json.dumps(manifest, indent=2))
 
 
 if __name__ == "__main__":

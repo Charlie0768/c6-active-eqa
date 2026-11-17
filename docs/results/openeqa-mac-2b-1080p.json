@@ -1,0 +1,132 @@
+{
+  "scene": "GLAQ4DNUx5U",
+  "size": "2",
+  "backend": "mlx",
+  "mlx_vlm": "0.7.6",
+  "weights_sha256": {
+    "model.safetensors": "4750d95a2162829e127a94e83ac350d498d02070aab216c4687da48804a06ffb"
+  },
+  "memory_metric": "MLX reported peak GB",
+  "rows": [
+    {
+      "question_id": "91a12c51-1ca0-4651-902a-c5aaeb62534f",
+      "question": "What shape is the couch in the living room?",
+      "condition": "clues",
+      "images": [
+        "p29-0",
+        "p18-2",
+        "p18-3",
+        "p23-1"
+      ],
+      "raw": "{\"answer\":\"L-shaped\",\"frame\":1}",
+      "elapsed_s": 41.371,
+      "peak_gb": 3.83,
+      "images_sha256": [
+        "164075d5909523bfa6f901ba8e2e3c3dc520d09a7d41539e3beed8e40255f350",
+        "bb6cb3f5677d9502c158784bc3f2c8d592bcb662e2c8c9ca3b2ae04ea58ff46f",
+        "a7c4d7f2ca705fdb6abcca2488ca3f6bb42f0c91478ca7ebd6f60d57d16dbad2",
+        "4a93eb4460e7dcd43c33fbed500f7154eae75a81c9b654c2be8306509e3df005"
+      ]
+    },
+    {
+      "question_id": "91a12c51-1ca0-4651-902a-c5aaeb62534f",
+      "question": "What shape is the couch in the living room?",
+      "condition": "closet_only",
+      "images": [
+        "p18-1",
+        "p18-2",
+        "p18-3",
+        "p23-1"
+      ],
+      "raw": "{\"answer\": \"unknown\", \"frame\": 0}",
+      "elapsed_s": 56.493,
+      "peak_gb": 3.83,
+      "images_sha256": [
+        "eca8a14107b5a0930d9e5946295a84fc7b77dc2712c9e41556baa0c08f221bc6",
+        "bb6cb3f5677d9502c158784bc3f2c8d592bcb662e2c8c9ca3b2ae04ea58ff46f",
+        "a7c4d7f2ca705fdb6abcca2488ca3f6bb42f0c91478ca7ebd6f60d57d16dbad2",
+        "4a93eb4460e7dcd43c33fbed500f7154eae75a81c9b654c2be8306509e3df005"
+      ]
+    },
+    {
+      "question_id": "206ca121-9185-484d-ab22-acfb082b1359",
+      "question": "How can I dry my towel?",
+      "condition": "clues",
+      "images": [
+        "p18-1",
+        "p16-1",
+        "p18-3",
+        "p23-1"
+      ],
+      "raw": "{\"answer\": \"unknown\",\"frame\":0}",
+      "elapsed_s": 50.309,
+      "peak_gb": 3.83,
+      "images_sha256": [
+        "eca8a14107b5a0930d9e5946295a84fc7b77dc2712c9e41556baa0c08f221bc6",
+        "d0da01ddb6637a83ee824adc60ea2fb40d5fc8a2d40419392b38c5afe0039646",
+        "a7c4d7f2ca705fdb6abcca2488ca3f6bb42f0c91478ca7ebd6f60d57d16dbad2",
+        "4a93eb4460e7dcd43c33fbed500f7154eae75a81c9b654c2be8306509e3df005"
+      ]
+    },
+    {
+      "question_id": "206ca121-9185-484d-ab22-acfb082b1359",
+      "question": "How can I dry my towel?",
+      "condition": "closet_only",
+      "images": [
+        "p18-1",
+        "p18-2",
+        "p18-3",
+        "p23-1"
+      ],
+      "raw": "{\"answer\": \"unknown\",\"frame\":0}",
+      "elapsed_s": 46.401,
+      "peak_gb": 3.83,
+      "images_sha256": [
+        "eca8a14107b5a0930d9e5946295a84fc7b77dc2712c9e41556baa0c08f221bc6",
+        "bb6cb3f5677d9502c158784bc3f2c8d592bcb662e2c8c9ca3b2ae04ea58ff46f",
+        "a7c4d7f2ca705fdb6abcca2488ca3f6bb42f0c91478ca7ebd6f60d57d16dbad2",
+        "4a93eb4460e7dcd43c33fbed500f7154eae75a81c9b654c2be8306509e3df005"
+      ]
+    },
+    {
+      "question_id": "35c42d77-9cdd-4072-b423-768350e0dbf2",
+      "question": "Could I have a conversation with someone cooking dinner in the kitchen while I sit in the dining room?",
+      "condition": "clues",
+      "images": [
+        "p18-1",
+        "p18-2",
+        "p24-1",
+        "p24-3"
+      ],
+      "raw": "{\"answer\":\"unknown\",\"frame\":3}",
+      "elapsed_s": 45.117,
+      "peak_gb": 3.83,
+      "images_sha256": [
+        "eca8a14107b5a0930d9e5946295a84fc7b77dc2712c9e41556baa0c08f221bc6",
+        "bb6cb3f5677d9502c158784bc3f2c8d592bcb662e2c8c9ca3b2ae04ea58ff46f",
+        "9455f78fe58276b27156f5ae87a4b08046e8012c1ac6f10e0f1717a85cfc4200",
+        "3308fc77bc246deee1ff557fddbe3119340d23bb69e9f8ec9a6915b0b162b65e"
+      ]
+    },
+    {
+      "question_id": "35c42d77-9cdd-4072-b423-768350e0dbf2",
+      "question": "Could I have a conversation with someone cooking dinner in the kitchen while I sit in the dining room?",
+      "condition": "closet_only",
+      "images": [
+        "p18-1",
+        "p18-2",
+        "p18-3",
+        "p23-1"
+      ],
+      "raw": "{\"answer\":\"unknown\",\"frame\":0}",
+      "elapsed_s": 44.308,
+      "peak_gb": 3.83,
+      "images_sha256": [
+        "eca8a14107b5a0930d9e5946295a84fc7b77dc2712c9e41556baa0c08f221bc6",
+        "bb6cb3f5677d9502c158784bc3f2c8d592bcb662e2c8c9ca3b2ae04ea58ff46f",
+        "a7c4d7f2ca705fdb6abcca2488ca3f6bb42f0c91478ca7ebd6f60d57d16dbad2",
+        "4a93eb4460e7dcd43c33fbed500f7154eae75a81c9b654c2be8306509e3df005"
+      ]
+    }
+  ]
+}
