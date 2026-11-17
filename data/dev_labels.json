@@ -24,7 +24,7 @@
         "visual_note": "从起点右转后，正前方房门呈深棕色；起始帧没有清楚显示该门。"
       },
       "initial_view_sufficient": false,
-      "review_status": "assistant_visual_reviewed_pending_user"
+      "review_status": "user_confirmed_door_target_and_color_2026-11-17"
     }
   ]
 }

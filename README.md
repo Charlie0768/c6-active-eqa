@@ -11,7 +11,7 @@
 3. 阅读 [MEMORY.md](MEMORY.md)，恢复已确认约束。
 4. 阅读[本机环境与 S02/S03 实测](docs/ENVIRONMENT.md)和[分阶段编码顺序](docs/CODE_STAGES.md)，按 [PROGRESS.md](PROGRESS.md) 的当前下一步推进。完整路线在 [PLAN.md](PLAN.md)。
 
-已完成 S02 仿真烟测、S03 单图问答和 S04 一题一行动闭环；S05 已运行两道开发题的 B0 起始视角基线与确定性评分 pilot。运行命令、证据和边界见 [ENVIRONMENT.md](docs/ENVIRONMENT.md)及 [S05 pilot](docs/S05_PILOT.md)。**正式题集与策略对比尚未完成，也未调用付费 API。**
+已完成 S02 仿真烟测、S03 单图问答和 S04 一题一行动闭环；S05 已运行两道开发题的 B0 起始视角及 B1 随机探索 pilot，并用确定性评分器复核。运行命令、证据和边界见 [ENVIRONMENT.md](docs/ENVIRONMENT.md)、[S05 B0](docs/S05_PILOT.md)及 [S05 B1](docs/S05_RANDOM_PILOT.md)。**正式题集与策略对比尚未完成，也未调用付费 API。**
 
 ## 文件索引
 
@@ -27,6 +27,7 @@
 | [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md) | S01 本机审计与 S02–S04 实测 |
 | [docs/CODE_STAGES.md](docs/CODE_STAGES.md) | 各个代码工作单元和通过条件 |
 | [docs/S05_PILOT.md](docs/S05_PILOT.md) | 两道开发题、私有真值、B0 运行和手算评分 |
+| [docs/S05_RANDOM_PILOT.md](docs/S05_RANDOM_PILOT.md) | 20 动作随机探索 pilot、帧选择及证据审计 |
 | [scripts/smoke_sim.py](scripts/smoke_sim.py) | S02 单房间、固定动作、重置烟测脚本 |
 | [requirements-s02.txt](requirements-s02.txt) | S02 最小直接依赖 |
 | [scripts/smoke_vl.py](scripts/smoke_vl.py) | S03 Qwen3-VL 单图问答与可核对的结果记录 |
@@ -38,7 +39,9 @@
 | [data/dev_labels.json](data/dev_labels.json) | S05 评分器私有真值与证据复核状态 |
 | [scripts/run_b0.py](scripts/run_b0.py) | S05 起始视角 B0 实际运行 |
 | [scripts/score_answers.py](scripts/score_answers.py) | S05 离线确定性评分 |
+| [scripts/run_b1_random.py](scripts/run_b1_random.py) | 固定种子随机探索、轨迹与四帧回答 pilot |
 | [tests/test_s05_scoring.py](tests/test_s05_scoring.py) | S05 评分、预算与题目/真值隔离检查 |
+| [tests/test_b1_random.py](tests/test_b1_random.py) | B1 随机动作、选帧与提示词边界检查 |
 | [docs/SESSION_TEMPLATE.md](docs/SESSION_TEMPLATE.md) | 后续工作／对话记录模板 |
 | [logs/2026-11-10-planning.md](logs/2026-11-10-planning.md) | 本轮真实对话决策摘要 |
 
