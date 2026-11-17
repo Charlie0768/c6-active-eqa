@@ -27,6 +27,6 @@
 
 ## 本机运行和协作
 
-从 [Habitat 配置与实测](docs/HABITAT_MAC.md) 开始。当前任务见 [项目进度](PROGRESS.md)，月度安排见 [计划](PLAN.md)。欢迎通过 issue 报告环境与复现问题，或提交包含输入、输出和验证方法的 pull request。
+从 [Habitat 配置与实测](docs/HABITAT_MAC.md) 开始。[模型选型与三台设备复测](docs/MODEL_SIZE_PROBE.md) 记录了在同一套 HM3D 住宅上用 OpenEQA 原题比较 2B 与 4B 的方法。当前任务见 [项目进度](PROGRESS.md)，月度安排见 [计划](PLAN.md)。欢迎通过 issue 报告环境与复现问题，或提交包含输入、输出和验证方法的 pull request。
 
 早期 AI2-THOR 厨房原型验证了本地模型看图、记录动作和选帧。两道开发题的结果只属于该原型。[历史闭环](docs/CLOSED_LOOP_WALKTHROUGH.md) · [随机探索记录](docs/S05_RANDOM_PILOT.md)

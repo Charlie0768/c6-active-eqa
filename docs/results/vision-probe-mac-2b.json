@@ -1,0 +1,200 @@
+{
+  "size": "2",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "backend": "mlx",
+  "mlx_vlm": "0.7.6",
+  "weights_sha256": "4750d95a2162829e127a94e83ac350d498d02070aab216c4687da48804a06ffb",
+  "memory_metric": "MLX reported peak GB",
+  "unity_active": true,
+  "rows": [
+    {
+      "images": [
+        0
+      ],
+      "question": "画面中央的大型家电是冰箱吗？",
+      "gold": "是",
+      "expected_frames": [
+        1
+      ],
+      "raw": "```json\n{\"answer\":\"是\",\"frame\":1}\n```",
+      "correct": true,
+      "supported": true,
+      "elapsed_s": 0.791,
+      "peak_gb": 2.039
+    },
+    {
+      "images": [
+        4
+      ],
+      "question": "厨房房门是白色的吗？",
+      "gold": "否",
+      "expected_frames": [
+        1
+      ],
+      "raw": "```json\n{\n  \"answer\": \"否\",\n  \"frame\": 1\n}\n```",
+      "correct": true,
+      "supported": true,
+      "elapsed_s": 0.541,
+      "peak_gb": 2.039
+    },
+    {
+      "images": [
+        4
+      ],
+      "question": "厨房房门是深棕色的吗？",
+      "gold": "是",
+      "expected_frames": [
+        1
+      ],
+      "raw": "```json\n{\n  \"answer\": \"是\",\n  \"frame\": 2\n}\n```",
+      "correct": true,
+      "supported": false,
+      "elapsed_s": 0.545,
+      "peak_gb": 2.039
+    },
+    {
+      "images": [
+        5
+      ],
+      "question": "冰箱旁地板上的小桶是白色的吗？",
+      "gold": "否",
+      "expected_frames": [
+        1
+      ],
+      "raw": "```json\n{\n  \"answer\": \"否\",\n  \"frame\": 2\n}\n```",
+      "correct": true,
+      "supported": false,
+      "elapsed_s": 0.531,
+      "peak_gb": 2.039
+    },
+    {
+      "images": [
+        5
+      ],
+      "question": "冰箱旁地板上的小桶在冰箱的右侧吗？",
+      "gold": "是",
+      "expected_frames": [
+        1
+      ],
+      "raw": "```json\n{\n  \"answer\": \"是\",\n  \"frame\": 1\n}\n```",
+      "correct": true,
+      "supported": true,
+      "elapsed_s": 0.533,
+      "peak_gb": 2.039
+    },
+    {
+      "images": [
+        1
+      ],
+      "question": "微波炉位于炉灶的下方吗？",
+      "gold": "否",
+      "expected_frames": [
+        1
+      ],
+      "raw": "```json\n{\n  \"answer\": \"是\",\n  \"frame\": 1\n}\n```",
+      "correct": false,
+      "supported": false,
+      "elapsed_s": 0.536,
+      "peak_gb": 2.039
+    },
+    {
+      "images": [
+        0
+      ],
+      "question": "厨房房门是白色的吗？",
+      "gold": "不确定",
+      "expected_frames": [
+        0
+      ],
+      "raw": "```json\n{\"answer\":\"否\",\"frame\":1}\n```",
+      "correct": false,
+      "supported": false,
+      "elapsed_s": 0.45,
+      "peak_gb": 2.039
+    },
+    {
+      "images": [
+        4
+      ],
+      "question": "冰箱里有鸡蛋吗？",
+      "gold": "不确定",
+      "expected_frames": [
+        0
+      ],
+      "raw": "```json\n{\n  \"answer\": \"否\",\n  \"frame\": 1\n}\n```",
+      "correct": false,
+      "supported": false,
+      "elapsed_s": 0.546,
+      "peak_gb": 2.039
+    },
+    {
+      "images": [
+        5
+      ],
+      "question": "厨房房门是深棕色的吗？",
+      "gold": "不确定",
+      "expected_frames": [
+        0
+      ],
+      "raw": "```json\n{\n  \"answer\": \"否\",\n  \"frame\": 1\n}\n```",
+      "correct": false,
+      "supported": false,
+      "elapsed_s": 0.543,
+      "peak_gb": 2.039
+    },
+    {
+      "images": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "question": "厨房房门是白色的吗？",
+      "gold": "不确定",
+      "expected_frames": [
+        0
+      ],
+      "raw": "```json\n{\n  \"answer\": \"否\",\n  \"frame\": 2\n}\n```",
+      "correct": false,
+      "supported": false,
+      "elapsed_s": 1.107,
+      "peak_gb": 2.518
+    },
+    {
+      "images": [
+        0,
+        1,
+        4,
+        3
+      ],
+      "question": "厨房房门是白色的吗？",
+      "gold": "否",
+      "expected_frames": [
+        3
+      ],
+      "raw": "```json\n{\n  \"answer\": \"否\",\n  \"frame\": 3\n}\n```",
+      "correct": true,
+      "supported": true,
+      "elapsed_s": 1.149,
+      "peak_gb": 2.518
+    },
+    {
+      "images": [
+        1,
+        5,
+        2,
+        3
+      ],
+      "question": "冰箱旁地板上的小桶在冰箱的右侧吗？",
+      "gold": "是",
+      "expected_frames": [
+        2
+      ],
+      "raw": "```json\n{\n  \"answer\": \"是\",\n  \"frame\": 2\n}\n```",
+      "correct": true,
+      "supported": true,
+      "elapsed_s": 1.166,
+      "peak_gb": 2.518
+    }
+  ]
+}
