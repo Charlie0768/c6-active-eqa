@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "source_questions_sha256": "a64dd101133213fa3b5ca31e5af8216662471aa34894b443d803f497757557ee",
+  "purpose": "development candidates; no formal evaluation split assigned",
+  "start_source": "local seed 17 navigable point, not an official OpenEQA pose",
+  "reference_start": {
+    "scene_id": "GLAQ4DNUx5U",
+    "position": [
+      -11.240976333618164,
+      -1.5928866863250732,
+      5.242695331573486
+    ],
+    "rotation_wxyz": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rgb_sha256": "f942b00b8f7d6313cc67e88fa7088d1ea2fd7c996c5e20067e20ff4c7f0e4019"
+  },
+  "scene_assets": [
+    {
+      "scene_id": "CFVBbU9Rsyb",
+      "glb": "data/raw/route-a/example/CFVBbU9Rsyb.basis.glb",
+      "navmesh": "data/raw/route-a/example/CFVBbU9Rsyb.basis.navmesh"
+    },
+    {
+      "scene_id": "GLAQ4DNUx5U",
+      "glb": "data/raw/route-a/example/GLAQ4DNUx5U.basis.glb",
+      "navmesh": "data/raw/route-a/example/GLAQ4DNUx5U.basis.navmesh"
+    },
+    {
+      "scene_id": "NBg5UqG3di3",
+      "glb": "data/raw/route-a/example/NBg5UqG3di3.basis.glb",
+      "navmesh": "data/raw/route-a/example/NBg5UqG3di3.basis.navmesh"
+    }
+  ],
+  "question_count": 11,
+  "questions": [
+    {
+      "question_id": "025258b4-51f0-4c83-b789-c4c186964c4d",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "object state recognition",
+      "question": "Is the printer plugged in?"
+    },
+    {
+      "question_id": "206ca121-9185-484d-ab22-acfb082b1359",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "functional reasoning",
+      "question": "How can I dry my towel?"
+    },
+    {
+      "question_id": "33639e66-332d-4824-82ef-e1bf13e94ccb",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "object localization",
+      "question": "What room is the potted cactus in?"
+    },
+    {
+      "question_id": "35c42d77-9cdd-4072-b423-768350e0dbf2",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "spatial understanding",
+      "question": "Could I have a conversation with someone cooking dinner in the kitchen while I sit in the dining room?"
+    },
+    {
+      "question_id": "6b804083-8b56-4d13-8309-c5cb642b0f87",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "object localization",
+      "question": "Where did I leave my water bottle?"
+    },
+    {
+      "question_id": "91a12c51-1ca0-4651-902a-c5aaeb62534f",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "attribute recognition",
+      "question": "What shape is the couch in the living room?"
+    },
+    {
+      "question_id": "93e19ff9-bfbd-4623-84a3-82c66528477e",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "attribute recognition",
+      "question": "What shape is the multicolored chair in the living room?"
+    },
+    {
+      "question_id": "b70465b8-53a3-436f-b12f-2d8cdf8f1856",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "spatial understanding",
+      "question": "What is on top of the washing machine?"
+    },
+    {
+      "question_id": "c3054a94-e904-4bb5-b7b7-47b14d052d85",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "object recognition",
+      "question": "What is the black object next to the black chair?"
+    },
+    {
+      "question_id": "c64f520c-6450-413c-99da-979be386ff86",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "functional reasoning",
+      "question": "How can I reach the wine glasses if I'm too short?"
+    },
+    {
+      "question_id": "d2f68af9-ef54-48cd-8dc2-f2cfff48489b",
+      "episode_history": "hm3d-v0/041-hm3d-GLAQ4DNUx5U",
+      "category": "object state recognition",
+      "question": "Is my study desk free from clutter?"
+    }
+  ]
+}
