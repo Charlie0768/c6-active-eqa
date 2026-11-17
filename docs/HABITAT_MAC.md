@@ -1,5 +1,7 @@
 # Mac 上运行 OpenEQA 的主动探索环境
 
+当前项目配置为 960×540、Qwen3-VL-2B-Instruct 4-bit。下文 480×270 为早期运行记录。
+
 从仓库根目录执行。Apple M4 使用 osx-arm64 的普通 Habitat-Sim 0.3.3 包和 Python 3.9；本地 Qwen3-VL 使用另一个 Python 3.11 环境。通过 RGB 图片交接，两套依赖可以独立升级。服务器的 headless 参数依赖 EGL，Mac 使用本机图形会话。[Habitat 安装说明](https://github.com/facebookresearch/habitat-sim#installation) · [arm64 安装包](https://anaconda.org/aihabitat/habitat-sim/files)
 
 ```bash
@@ -48,4 +50,4 @@ foreach ($n in 1,4) {
 }
 ```
 
-检查两次请求都完成且读入所需图片，记录模型 ID、加载位置（GPU/CPU）、耗时和显存余量。正式验收再用真实 20 步轨迹连续跑 10 题。若开发题上已有充足证据而 2B 常读错，才用同图对照 4B，并复测四图峰值。[Windows 支持](https://docs.ollama.com/windows) · [模型文件](https://ollama.com/library/qwen3-vl:2b) · [图像请求格式](https://docs.ollama.com/capabilities/vision)
+检查两次请求都完成且读入所需图片，记录模型 ID、加载位置（GPU/CPU）、耗时和显存余量。正式验收再用真实 20 步轨迹连续跑 10 题。当前验收模型固定为 2B。[Windows 支持](https://docs.ollama.com/windows) · [模型文件](https://ollama.com/library/qwen3-vl:2b) · [图像请求格式](https://docs.ollama.com/capabilities/vision)

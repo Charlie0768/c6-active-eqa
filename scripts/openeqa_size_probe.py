@@ -28,7 +28,7 @@ def main():
     parser.add_argument("--views", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--backend", required=True, choices=["mlx", "cuda"])
-    parser.add_argument("--size", required=True, choices=["2", "4"])
+    parser.add_argument("--size", default="2", choices=["2", "4"])
     args = parser.parse_args()
     if args.output.exists():
         parser.error("请为此次运行指定新文件")

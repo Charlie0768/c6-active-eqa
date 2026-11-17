@@ -27,7 +27,8 @@ def main():
     camera = habitat_sim.CameraSensorSpec()
     camera.uuid = "rgb"
     camera.sensor_type = habitat_sim.SensorType.COLOR
-    camera.resolution = [270, 480]
+    height, width = 540, 960
+    camera.resolution = [height, width]
     camera.position = mn.Vector3(0, 1.5, 0)
     agent_cfg = habitat_sim.agent.AgentConfiguration()
     agent_cfg.sensor_specifications = [camera]
@@ -48,7 +49,7 @@ def main():
             obs = (sim.get_sensor_observations() if action in ("start", "restore")
                    else sim.step(action))
             rgb = obs["rgb"][:, :, :3].copy()
-            if rgb.shape != (270, 480, 3) or rgb.min() == rgb.max():
+            if rgb.shape != (height, width, 3) or rgb.min() == rgb.max():
                 raise RuntimeError("Invalid camera image")
             name = f"{index}-{action}.png"
             Image.fromarray(rgb).save(args.output / name)

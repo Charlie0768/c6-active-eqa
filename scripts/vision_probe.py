@@ -93,6 +93,8 @@ def main():
     parser.add_argument("--with-unity", action="store_true",
                         help="同时启动一个 300×300 场景，检查仿真和推理共存")
     args = parser.parse_args()
+    if not all((ROOT / "data/vision_probe" / f"view{i}.png").is_file() for i in range(6)):
+        parser.error("历史厨房图片已归档于 Git 提交 e989acc；当前 Habitat 入口为 openeqa_size_probe.py")
     if args.output.exists():
         parser.error("请用新输出路径，保留原始结果")
     args.output.parent.mkdir(parents=True, exist_ok=True)

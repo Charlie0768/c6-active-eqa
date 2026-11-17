@@ -15,7 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scene", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--height", type=int, default=270,
+    parser.add_argument("--height", type=int, default=540,
                         help="原生 16:9 相机的输出高度，如 270、540、720 或 1080")
     parser.add_argument("--navmesh", type=Path, help="两种 GLB 共用同一套住宅的导航网格")
     args = parser.parse_args()

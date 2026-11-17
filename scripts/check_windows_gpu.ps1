@@ -1,7 +1,7 @@
 # Run from a Python 3.11 CUDA environment (see docs/MODEL_SIZE_PROBE.md).
 param(
     [ValidateSet(2, 4)][int]$Size = 2,
-    [string]$Views,
+    [string]$Views = "runs/hm3d-views",
     [string]$Questions = "data/raw/route-a/open-eqa-v0.json"
 )
 $ErrorActionPreference = "Stop"
@@ -13,10 +13,6 @@ if ($LASTEXITCODE -ne 0) { throw "nvidia-smi failed; check NVIDIA driver" }
 python -c "import torch; assert torch.cuda.is_available(), 'Install a CUDA build of PyTorch'; print(torch.__version__, torch.version.cuda)"
 if ($LASTEXITCODE -ne 0) { throw "CUDA preflight failed" }
 
-if ($Views) {
-    python scripts/openeqa_size_probe.py --backend cuda --size $Size --views $Views --questions $Questions --output "$run/result.json"
-} else {
-    python scripts/vision_probe.py --backend cuda --size $Size --output "$run/result.json"
-}
+python scripts/openeqa_size_probe.py --backend cuda --size $Size --views $Views --questions $Questions --output "$run/result.json"
 if ($LASTEXITCODE -ne 0) { throw "Inference failed; keep the error and gpu.csv" }
 Write-Output "Results: $run/result.json"
