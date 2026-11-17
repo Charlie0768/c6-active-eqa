@@ -34,20 +34,59 @@ def infer(model, processor, config, prompt, images):
     return response.text.strip(), round(response.peak_memory, 3)
 
 
-def choose_action(raw, previous_collision):
+def parse_action(raw):
+    """Accept one explicit whitelisted action, including common JSON wrappers."""
     candidate = raw.strip()
-    fence = re.fullmatch(r"```(?:json)?\s*\n(.*?)\n```", candidate,
+    fence = re.fullmatch(r"```(?:json)?\s*(.*?)\s*```", candidate,
                          flags=re.DOTALL | re.IGNORECASE)
     if fence:
         candidate = fence.group(1).strip()
+
+    def canonical(value):
+        if not isinstance(value, str):
+            return None
+        normalized = re.sub(r"[\s_-]", "", value).casefold()
+        return next((name for name in RECOVERY_CONTROLS if name.casefold() == normalized), None)
+
     try:
-        parsed = json.loads(candidate)
+        decoded = json.loads(candidate)
     except json.JSONDecodeError:
-        parsed = None
-    action = parsed.get("action") if isinstance(parsed, dict) else None
-    if action in RECOVERY_CONTROLS:
-        return action, True
-    return ("RotateRight" if previous_collision else "MoveAhead"), False
+        decoded = None
+    if isinstance(decoded, dict):
+        return canonical(decoded.get("action")), "json"
+    if isinstance(decoded, str):
+        return canonical(decoded), "json_string"
+
+    objects = re.findall(r"\{[^{}]*\}", candidate)
+    if len(objects) == 1:
+        try:
+            decoded = json.loads(objects[0])
+        except json.JSONDecodeError:
+            decoded = None
+        if isinstance(decoded, dict):
+            return canonical(decoded.get("action")), "embedded_json"
+    if len(objects) > 1:
+        return None, "ambiguous"
+
+    explicit = re.fullmatch(r"(?:action\s*[:=]\s*)?['\"`]?\s*"
+                            r"(MoveAhead|RotateLeft|RotateRight|Move Ahead|Rotate Left|Rotate Right)"
+                            r"\s*['\"`]?\s*\.?", candidate, flags=re.IGNORECASE)
+    if explicit:
+        return canonical(explicit.group(1)), "action_text"
+    return None, "missing_action"
+
+
+def choose_action(proposed, previous_collision, turn_streak):
+    """Allow model steering while ensuring turns and collisions cannot stall forever."""
+    if previous_collision:
+        if proposed in ("RotateLeft", "RotateRight"):
+            return proposed, "model_after_collision"
+        return "RotateRight", "collision_recovery"
+    if turn_streak >= 2:
+        return "MoveAhead", "turn_limit"
+    if proposed is not None:
+        return proposed, "model"
+    return "MoveAhead", "missing_action_fallback"
 
 
 def main():
@@ -89,16 +128,24 @@ def main():
                     if sha256_file(image) != current["sha256"]:
                         raise RuntimeError("Observation differs from worker manifest")
                     previous_collision = current["collided"] is True
-                    prompt = ("You are exploring a home to answer the question. Current camera image only. "
-                              "The previous move collided with an obstacle. " if previous_collision else
-                              "You are exploring a home to answer the question. Current camera image only. ")
-                    prompt += (f"Action {step} of 20. Choose exactly one action from "
-                               "MoveAhead, RotateLeft, RotateRight. Turns are 90 degrees and moves are 0.25 m. "
-                               "Use the image to seek evidence. Do not answer the question yet. "
-                               "Return JSON only with an action key. "
-                               f"Question: {questions[0]}")
+                    turn_streak = 0
+                    for previous in reversed(decisions):
+                        if previous["action"] not in ("RotateLeft", "RotateRight"):
+                            break
+                        turn_streak += 1
+                    feedback = "The last move collided. " if previous_collision else ""
+                    prompt = ("Explore this home to find visual evidence for the question. "
+                              "Decide the next action using this camera image. "
+                              f"{feedback}Action {step} of 20. "
+                              "Available actions are MoveAhead (0.25 m), RotateLeft (90 degrees), "
+                              "and RotateRight (90 degrees). Search for a likely room or opening. "
+                              "Choose an action even when the target is not visible. "
+                              "Do not answer the question yet. "
+                              'Output only one JSON object such as {"action":"MoveAhead"}. '
+                              f"Question: {questions[0]}")
                     raw, peak = infer(model, processor, config, prompt, [image])
-                    action, valid = choose_action(raw, previous_collision)
+                    proposed, parse_source = parse_action(raw)
+                    action, decision_reason = choose_action(proposed, previous_collision, turn_streak)
                     worker.stdin.write(json.dumps({"action": action}) + "\n")
                     worker.stdin.flush()
                     next_observation = read_step(worker)
@@ -106,7 +153,8 @@ def main():
                         raise RuntimeError("Worker step mismatch")
                     decisions.append(dict(step=step, observed_image=image.name,
                                           observed_sha256=current["sha256"], prompt=prompt,
-                                          raw=raw, action=action, valid_action_json=valid,
+                                          raw=raw, proposed_action=proposed, parse_source=parse_source,
+                                          action=action, decision_reason=decision_reason,
                                           previous_collision=previous_collision, peak_gb=peak,
                                           result_collision=next_observation["collided"]))
                     (args.run / "decisions.json").write_text(json.dumps(decisions, indent=2) + "\n")
@@ -131,7 +179,8 @@ def main():
                   mlx_vlm_version=version("mlx-vlm"), budget=BUDGET, actions_used=len(decisions),
                   selected_steps=steps, answer=answer, raw=raw, valid_answer_json=valid,
                   cited_step=steps[frame - 1] if valid and frame else None,
-                  decision_json_valid_count=sum(d["valid_action_json"] for d in decisions),
+                  parsed_model_action_count=sum(d["proposed_action"] is not None for d in decisions),
+                  executed_model_action_count=sum(d["decision_reason"].startswith("model") for d in decisions),
                   final_peak_gb=peak, elapsed_s=round(time.perf_counter() - started, 3),
                   trace_sha256=sha256_file(args.run / "trace.json"))
     (args.run / "result.json").write_text(json.dumps(result, indent=2) + "\n")
