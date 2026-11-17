@@ -1,6 +1,8 @@
 """同一起始 RGB 的 Habitat B0/B1。两个命令分别在 Habitat 与 MLX 环境运行。"""
 import argparse
 import json
+import random
+import re
 import time
 import uuid
 from importlib.metadata import version
@@ -17,6 +19,30 @@ BUDGET = 20
 CONTROLS = {"RotateRight": ("turn_right", 10), "RotateLeft": ("turn_left", 10),
             "MoveAhead": ("move_forward", 0.25), "LookUp": ("look_up", 10),
             "LookDown": ("look_down", 10)}
+RECOVERY_CONTROLS = {"RotateRight": ("turn_right", 90), "RotateLeft": ("turn_left", 90),
+                     "MoveAhead": ("move_forward", 0.25)}
+
+
+def normalize_prediction(raw, image_count):
+    candidate = raw.strip()
+    fence = re.fullmatch(r"```(?:json)?\s*\n(.*?)\n```", candidate,
+                         flags=re.DOTALL | re.IGNORECASE)
+    if fence:
+        candidate = fence.group(1).strip()
+    try:
+        parsed = json.loads(candidate)
+    except json.JSONDecodeError:
+        parsed = None
+    valid = (isinstance(parsed, dict) and isinstance(parsed.get("answer"), str)
+             and bool(parsed["answer"].strip()) and type(parsed.get("frame")) is int
+             and ((parsed["answer"].strip().lower() == "unknown" and parsed["frame"] == 0)
+                  or (parsed["answer"].strip().lower() != "unknown"
+                      and 1 <= parsed["frame"] <= image_count)))
+    if valid:
+        return parsed["answer"].strip(), parsed["frame"], True
+    if raw.strip().lower() == "unknown":
+        return "unknown", None, False
+    return None, None, False
 
 
 def render(args):
@@ -25,9 +51,11 @@ def render(args):
 
     scene = args.scene.resolve(strict=True)
     navmesh = scene.with_suffix(".navmesh").resolve(strict=True)
+    controls = CONTROLS if args.policy == "uniform" else RECOVERY_CONTROLS
     space = {action: hs.agent.ActionSpec(name, hs.agent.ActuationSpec(amount))
-             for action, (name, amount) in CONTROLS.items()}
-    sequence = sample_actions(args.seed, BUDGET)
+             for action, (name, amount) in controls.items()}
+    sequence = sample_actions(args.seed, BUDGET) if args.policy == "uniform" else None
+    rng = random.Random(args.seed)
     frames = []
     with hs.Simulator(camera_config(scene, space)) as sim:
         if not sim.pathfinder.load_nav_mesh(str(navmesh)):
@@ -40,12 +68,21 @@ def render(args):
         agent.set_state(start)
         # B0 与 B1 共享同一张第 0 帧，彻底固定初始观察。
         used = 0
-        for action in [None, *sequence]:
-            if action is None:
+        previous_collision = False
+        for step in range(BUDGET + 1):
+            action = None
+            if step == 0:
                 obs = sim.get_sensor_observations()
             else:
+                if sequence is not None:
+                    action = sequence[step - 1]
+                elif previous_collision:
+                    action = rng.choice(("RotateLeft", "RotateRight"))
+                else:
+                    action = rng.choice(("MoveAhead", "MoveAhead", "RotateLeft", "RotateRight"))
                 used = consume_action(action, used, BUDGET)
                 obs = sim.step(action)
+                previous_collision = bool(obs["collided"])
             rgb = obs["rgb"][:, :, :3]
             if rgb.shape != (*CAMERA_SHAPE, 3) or rgb.max() == rgb.min():
                 raise RuntimeError(f"Invalid RGB at step {used}")
@@ -58,13 +95,13 @@ def render(args):
                                position=state.position.tolist(), rotation_wxyz=state.rotation.components.tolist(),
                                camera_rotation_wxyz=camera.rotation.components.tolist()))
     trace = dict(scene=scene.name, habitat_version=version("habitat-sim"), start_seed=17,
-                 start_source="local seeded navigable point", action_seed=args.seed, controls=CONTROLS,
+                 start_source="local seeded navigable point", action_seed=args.seed,
+                 policy=args.policy, controls=controls,
                  budget=BUDGET, actions_used=used, frames=frames)
     (args.run / "trace.json").write_text(json.dumps(trace, indent=2) + "\n")
 
 
 def answer(args):
-    from smoke_vl import parse_answer
     from vision_probe import mlx_engine
 
     output = args.run / f"{args.question_id}.json"
@@ -94,14 +131,11 @@ def answer(args):
                   'Return JSON only: {"answer":"...", "frame":0}. Question: ' + questions[0])
         begin = time.perf_counter()
         raw, peak = predict(prompt, images)
-        parsed, _ = parse_answer(raw.strip())
-        valid = (isinstance(parsed, dict) and isinstance(parsed.get("answer"), str)
-                 and bool(parsed["answer"].strip()) and type(parsed.get("frame")) is int
-                 and ((parsed["answer"].strip().lower() == "unknown" and parsed["frame"] == 0)
-                      or (parsed["answer"].strip().lower() != "unknown" and 1 <= parsed["frame"] <= len(steps))))
-        cited = steps[parsed["frame"] - 1] if valid and parsed["frame"] else None
+        normalized, frame, valid = normalize_prediction(raw, len(steps))
+        cited = steps[frame - 1] if valid and frame else None
         records.append(dict(condition=condition, actions_used=used, selected_steps=steps,
-                            prompt=prompt, raw=raw, valid=valid, cited_step=cited,
+                            prompt=prompt, raw=raw, valid=valid, normalized_answer=normalized,
+                            cited_step=cited,
                             elapsed_s=round(time.perf_counter() - begin, 3), peak_gb=peak))
     result = dict(question_id=args.question_id, question=questions[0], scene=scene,
                   trace_sha256=sha256_file(args.run / "trace.json"), model=model, predictions=records)
@@ -117,6 +151,7 @@ def main():
     sim = sub.add_parser("render")
     sim.add_argument("--scene", type=Path, required=True)
     sim.add_argument("--seed", type=int, default=17)
+    sim.add_argument("--policy", choices=("uniform", "collision_aware"), default="uniform")
     vl = sub.add_parser("answer")
     vl.add_argument("--question-id", required=True, type=uuid.UUID)
     vl.add_argument("--data", type=Path, default=Path("data/raw/route-a/open-eqa-v0.json"))
