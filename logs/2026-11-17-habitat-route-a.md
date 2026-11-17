@@ -1,0 +1,1 @@
+用户指定 OpenEQA 路线 A，并要求照顾 Windows RTX 3060 6 GB。已下载并核验官方题库和 Matterport 公开样例，在 Mac 的独立 conda 环境中实测 Habitat。初次相机位置参数类型不匹配，改用 Magnum Vector3 后通过。住宅 GLAQ4DNUx5U 匹配 11 题。运行记录在 runs/habitat-a-mac，含四张图片、轨迹和真实的本地模型回答。官方历史位姿链接已过期，此次种子起点仅作本地验证。正式多题主动策略与 Windows 显存还待实测。未使用付费服务。

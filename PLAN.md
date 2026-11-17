@@ -1,3 +1,14 @@
+# 路线 A 的四周计划
+
+1. 第一周接入 OpenEQA 题库与 Habitat，复现一题的住宅、起点和观察，先运行起始视角组。登记可用场景、题目 ID 与划分，按住宅隔离开发和测试。
+2. 第二周在同一批题上跑随机探索，保存轨迹，核查模型拿到哪些帧。接入开放答案评分与人工抽查。
+3. 第三周实现问题引导、提前停止和带来源步号的观察记忆，分别对照，在开发集测运行成本。
+4. 第四周冻结题目、模型、起点和评分规则，在预先登记的测试集上完成配对比较、失败分析与回放，交付海报和报告。
+
+本地配置与当前进展见 [Habitat 运行说明](docs/HABITAT_MAC.md) 和 [项目进度](PROGRESS.md)。
+
+<details><summary>2026-11-17 改选 A 之前的计划（历史记录）</summary>
+
 # C6 月度实施计划
 
 版本：规划 v1.3（先跑通 VL，再考虑模型对比）。计划窗口：2026-11-10 至 2026-12-09（Asia/Shanghai）。
@@ -193,3 +204,5 @@
 - [AI2-THOR 状态接口](https://ai2thor.allenai.org/ithor/documentation/environment-state/)
 - [Habitat 3.0](https://aihabitat.org/habitat3/)
 - [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL)
+
+</details>
